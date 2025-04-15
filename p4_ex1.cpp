@@ -1,26 +1,26 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-#define SDA_PIN  8  // Elige el pin SDA que prefieras
-#define SCL_PIN  9 // Elige el pin SCL que prefieras
+#define SDA_PIN  8  // Tria el pin SDA que prefereixis
+#define SCL_PIN  9  // Tria el pin SCL que prefereixis
 
 void setup() {
-  Wire.begin(SDA_PIN, SCL_PIN); // Configura los pines SDA y SCL elegidos
+  Wire.begin(SDA_PIN, SCL_PIN); // Configura els pins SDA i SCL triats
   Serial.begin(115200);
-  while (!Serial); // Espera a que se abra el puerto serial
-  Serial.println("\nI2C Scanner");
+  while (!Serial); // Espera que s'obri el port sèrie
+  Serial.println("\nEscàner I2C");
 }
 
 void loop() {
   byte error, address;
   int nDevices;
-  Serial.println("Scanning...");
+  Serial.println("Escanejant...");
   nDevices = 0;
   for(address = 1; address < 127; address++ ) {
     Wire.beginTransmission(address);
     error = Wire.endTransmission();
     if (error == 0) {
-      Serial.print("I2C device found at address 0x");
+      Serial.print("Dispositiu I2C trobat a l'adreça 0x");
       if (address < 16) {
         Serial.print("0");
       }
@@ -28,7 +28,7 @@ void loop() {
       Serial.println(" !");
       nDevices++;
     } else if (error == 4) {
-      Serial.print("Unknown error at address 0x");
+      Serial.print("Error desconegut a l'adreça 0x");
       if (address < 16) {
         Serial.print("0");
       }
@@ -36,9 +36,9 @@ void loop() {
     }
   }
   if (nDevices == 0) {
-    Serial.println("No I2C devices found");
+    Serial.println("No s'han trobat dispositius I2C");
   } else {
-    Serial.println("done");
+    Serial.println("fet");
   }
-  delay(5000); // Espera 5 segundos para el siguiente escaneo
+  delay(5000); // Espera 5 segons abans del següent escaneig
 }
